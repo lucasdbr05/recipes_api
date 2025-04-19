@@ -11,4 +11,5 @@ public class Ingredient {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string Unity { get; set; } = null!;
+    public ICollection<RecipeIngredient> Recipes { get; set; } = null!;
 }
