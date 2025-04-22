@@ -10,6 +10,8 @@ public class RecipeIngredientConfiguration : IEntityTypeConfiguration<RecipeIngr
     {
         builder.ToTable("RecipeIngredients");
 
+        builder.HasKey(R => R.Id);
+        
         builder.Property(r => r.Quantity)
             .IsRequired();
 

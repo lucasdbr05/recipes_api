@@ -1,12 +1,11 @@
 namespace RecipesAPI.Entities;
 
 public class Recipe {
-    public Recipe(int id, string name, string preparationMethod, ICollection<RecipeIngredient> ingredients)
+    public Recipe(int id, string name, string preparationMethod)
     {
         Id = id;
         Name = name;
         PreparationMethod = preparationMethod;
-        Ingredients = ingredients;
     }
 
     public int Id { get; set; }

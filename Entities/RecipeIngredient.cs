@@ -7,7 +7,8 @@ public class RecipeIngredient {
         IngredientId = ingredientId;
         Quantity = quantity;
     }
-
+    
+    public int Id { get; set; }
     public int RecipeId { get; set; }
     public int IngredientId { get; set; }
     public decimal Quantity { get; set; } 
