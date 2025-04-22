@@ -1,8 +1,12 @@
 namespace RecipesAPI.Controllers;
+
+using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Services;
 
 
-public class IngredientsController {
+[Route("api/ingredients")]
+[ApiController]
+public class IngredientsController : ControllerBase {
     private readonly IngredientService ingredientService;
 
     public IngredientsController(IngredientService ingredientService) {

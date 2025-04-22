@@ -1,9 +1,8 @@
 namespace RecipesAPI.Entities;
 
 public class Ingredient {
-    public Ingredient(int id, string name, string unity)
+    public Ingredient(string name, string unity)
     {
-        Id = id;
         Name = name;
         Unity = unity;
     }
