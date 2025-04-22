@@ -45,7 +45,7 @@ public class IngredientService {
 
         return ingredients;    
     }  
-    public DetailIngredientViewModel GetAll(int Id) {
+    public DetailIngredientViewModel Get(int Id) {
         var ingredient = _context.Ingredients.Single(i => i.Id == Id);       
         
         return new DetailIngredientViewModel(

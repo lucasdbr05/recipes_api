@@ -1,5 +1,6 @@
 using RecipesAPI.Contexts;
 using Microsoft.EntityFrameworkCore;
+using RecipesAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,13 +13,15 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-    
+
 var app = builder.Build();
 
 builder.Services.AddDbContext<APIDbContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+builder.Services.AddTransient<IngredientService>();
+builder.Services.AddTransient<RecipeService>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
