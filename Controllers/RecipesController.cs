@@ -18,6 +18,38 @@ public class RecipesController : ControllerBase {
     [HttpPost]
     public IActionResult Create(CreateRecipeViewModel data) {
         var recipe = RecipeService.Create(data);
+
         return Ok(recipe);
+    }
+
+    [HttpGet]
+    public IActionResult GetAll() {
+        var ingredients =  RecipeService.GetAll();
+
+        return Ok(ingredients);
+    }
+
+    [HttpGet("{id:int}")]
+    public IActionResult Get(int id) {
+        var recipe =  RecipeService.Get(id);
+
+        return Ok(recipe);
+    }
+
+    [HttpPatch("{id:int}")]
+    public IActionResult Patch(int id, UpdateRecipeViewModel data) {
+        if (id != data.Id)
+            throw new BadHttpRequestException("Id in the request doesn't correspond to in the body.");
+
+        var recipe = RecipeService.Update(id, data);
+
+        return Ok(recipe);
+    }
+
+    [HttpDelete("{id:int}")]
+    public IActionResult Remove(int id) {
+        RecipeService.Remove(id);
+ 
+        return Ok(id);
     }
 }
