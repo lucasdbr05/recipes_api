@@ -56,7 +56,6 @@ public class RecipeIngredientService {
             throw new KeyNotFoundException($"Recipe ingredient with ID {id} not found.");
         }
 
-        recipeIngredient.IngredientId = data.IngredientId;
         recipeIngredient.Quantity = data.Quantity;
 
         _context.RecipeIngredients.Update(recipeIngredient);
@@ -73,7 +72,6 @@ public class RecipeIngredientService {
             data.Select(ri => {
                 if(ri.Id != null) {
                     UpdateRecipeIngredientDTO ingredientNewData = new UpdateRecipeIngredientDTO();
-                    ingredientNewData.IngredientId = ri.IngredientId;
                     ingredientNewData.Quantity = ri.Quantity;
                     return Update(
                             ri.Id ?? 0, 

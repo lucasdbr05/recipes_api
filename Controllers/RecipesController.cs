@@ -52,4 +52,11 @@ public class RecipesController : ControllerBase {
  
         return Ok(id);
     }
+
+    [HttpDelete("ingredient/{id:int}")]
+    public IActionResult RemoveIngredient(int id) {
+        RecipeService.RemoveIngredient(id);
+ 
+        return Ok(id);
+    }
 }

@@ -58,7 +58,7 @@ public class RecipeService {
                         recipe.Ingredients
                     )
             )
-            .ToList();   
+            .ToList();
 
         return recipes;    
     }
@@ -114,6 +114,19 @@ public class RecipeService {
         }
 
         _context.Recipes.Remove(recipe);
+        _context.SaveChanges();       
+    }
+
+    public void RemoveIngredient(int id) {
+        var ingredient = _context
+            .RecipeIngredients
+            .SingleOrDefault(recipeIngredient => recipeIngredient.Id == id);
+
+        if (ingredient == null) {
+            throw new BadHttpRequestException($"Recipe with ID {id} not found.");
+        }
+
+        _context.RecipeIngredients.Remove(ingredient);
         _context.SaveChanges();       
     }
 }
