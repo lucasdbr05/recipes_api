@@ -10,17 +10,17 @@ public class RecipeIngredientConfiguration : IEntityTypeConfiguration<RecipeIngr
     {
         builder.ToTable("RecipeIngredients");
 
-        builder.HasKey(R => R.Id);
+        builder.HasKey(ri => ri.Id);
         
-        builder.Property(r => r.Quantity)
+        builder.Property(ri => ri.Quantity)
             .IsRequired();
 
         builder.HasOne(ri => ri.Recipe)
             .WithMany(r => r.Ingredients)
-            .HasForeignKey(r => r.RecipeId);
+            .HasForeignKey(ri => ri.RecipeId);
             
         builder.HasOne(ri => ri.Ingredient)
             .WithMany(i => i.Recipes)
-            .HasForeignKey(r => r.IngredientId);
+            .HasForeignKey(ri => ri.IngredientId);
     }
 }

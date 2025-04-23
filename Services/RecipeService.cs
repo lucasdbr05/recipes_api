@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Contexts;
 using RecipesAPI.Entities;
 using RecipesAPI.ViewModels;
@@ -46,8 +47,9 @@ public class RecipeService {
 
 
     public List<DetailRecipeViewModel> GetAll() {
-        var recipes = _context.Recipes
-            .ToList()
+        var recipes = _context
+            .Recipes
+            .Include(r => r.Ingredients)
             .Select(
                 recipe =>  new DetailRecipeViewModel(
                         recipe.Id,
@@ -62,7 +64,9 @@ public class RecipeService {
     }
 
     public DetailRecipeViewModel Get(int Id) {
-        var recipe = _context.Recipes.Single(i => i.Id == Id);       
+        var recipe = _context.Recipes
+            .Include(r => r.Ingredients)
+            .Single(i => i.Id == Id);       
         
         return new DetailRecipeViewModel(
             recipe.Id,
