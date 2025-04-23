@@ -42,7 +42,69 @@ public class RecipeService {
             transaction.Rollback();
             throw new BadHttpRequestException("Error on create recipe");
         }
-        
     } 
 
+
+    public List<DetailRecipeViewModel> GetAll() {
+        var recipes = _context.Recipes
+            .ToList()
+            .Select(
+                recipe =>  new DetailRecipeViewModel(
+                        recipe.Id,
+                        recipe.Name,
+                        recipe.PreparationMethod,
+                        recipe.Ingredients
+                    )
+            )
+            .ToList();   
+
+        return recipes;    
+    }
+
+    public DetailRecipeViewModel Get(int Id) {
+        var recipe = _context.Recipes.Single(i => i.Id == Id);       
+        
+        return new DetailRecipeViewModel(
+            recipe.Id,
+            recipe.Name,
+            recipe.PreparationMethod,
+            recipe.Ingredients
+        );
+    }  
+
+    public DetailRecipeViewModel Update(
+        int id, 
+        UpdateRecipeViewModel data
+    ) {
+        var recipe = _context.Recipes.SingleOrDefault(i => i.Id == id);
+
+        if (recipe == null) {
+            throw new KeyNotFoundException($"Recipe with ID {id} not found.");
+        }
+
+        recipe.Name = data.Name;
+        recipe.PreparationMethod = data.PreparationMethod;
+
+        _context.Recipes.Update(recipe);
+        _context.SaveChanges();
+
+        return new DetailRecipeViewModel(
+            recipe.Id,
+            recipe.Name,
+            recipe.PreparationMethod,
+            recipe.Ingredients
+        );
+    }
+
+    public void Remove(int id) {
+        var recipe = _context.Recipes
+            .SingleOrDefault(recipe => recipe.Id == id);
+
+        if (recipe == null) {
+            throw new BadHttpRequestException($"Recipe with ID {id} not found.");
+        }
+
+        _context.Recipes.Remove(recipe);
+        _context.SaveChanges();       
+    }
 }
