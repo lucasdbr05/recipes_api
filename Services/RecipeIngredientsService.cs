@@ -26,7 +26,6 @@ public class RecipeIngredientService {
 
         _context.RecipeIngredients.Add(recipeIngredient);
 
-        
         return recipeIngredient;
     }
 
@@ -34,18 +33,17 @@ public class RecipeIngredientService {
         int recipeId,
         ICollection<CreateRecipeIngredientDTO> data
     ) {
-        var recipeIngredients = data.Select(recipeIngredient => new RecipeIngredient (
-            recipeId,
-            recipeIngredient.IngredientId,
-            recipeIngredient.Quantity
-        )).ToList();
+        var recipeIngredients = data
+            .Select(recipeIngredient => new RecipeIngredient (
+                recipeId,
+                recipeIngredient.IngredientId,
+                recipeIngredient.Quantity
+            )).ToList();
 
         _context.RecipeIngredients.AddRange(recipeIngredients);
 
         return recipeIngredients;
     }
-
-    
 
     public RecipeIngredient Update(
         int id, 
@@ -65,6 +63,36 @@ public class RecipeIngredientService {
         _context.SaveChanges();
 
         return recipeIngredient;
+    }
+
+    public ICollection<RecipeIngredient> CreteOrUpdateMany(
+        int recipeId, 
+        ICollection<CreateOrUpdateRecipeIngredientDT0> data 
+    ) {
+        var recipeIngredients = 
+            data.Select(ri => {
+                if(ri.Id != null) {
+                    UpdateRecipeIngredientDTO ingredientNewData = new UpdateRecipeIngredientDTO();
+                    ingredientNewData.IngredientId = ri.IngredientId;
+                    ingredientNewData.Quantity = ri.Quantity;
+                    return Update(
+                            ri.Id ?? 0, 
+                            ingredientNewData
+                        );            
+                } else {
+                    CreateRecipeIngredientDTO ingredientNewData = new CreateRecipeIngredientDTO();
+                    ingredientNewData.IngredientId = ri.IngredientId;
+                    ingredientNewData.Quantity = ri.Quantity;
+                    
+                    return Create(
+                        recipeId,
+                        ingredientNewData
+                    );
+                }
+            })
+            .ToList();
+
+        return recipeIngredients;
     }
 
     public void Remove(int id) {

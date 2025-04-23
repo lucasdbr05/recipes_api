@@ -88,6 +88,11 @@ public class RecipeService {
 
         recipe.Name = data.Name;
         recipe.PreparationMethod = data.PreparationMethod;
+        
+        RecipeIngredientService.CreteOrUpdateMany(
+            recipe.Id, 
+            data.Ingredients
+        );
 
         _context.Recipes.Update(recipe);
         _context.SaveChanges();
