@@ -1,9 +1,8 @@
 namespace RecipesAPI.Entities;
 
 public class Recipe {
-    public Recipe(int id, string name, string preparationMethod)
+    public Recipe(string name, string preparationMethod)
     {
-        Id = id;
         Name = name;
         PreparationMethod = preparationMethod;
     }

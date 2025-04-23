@@ -17,5 +17,9 @@ public class IngredientConfiguration : IEntityTypeConfiguration<Ingredient>
         
         builder.Property(i => i.Unity)
             .IsRequired();
+
+        builder.HasMany(i => i.Recipes)
+            .WithOne(r => r.Ingredient)
+            .HasForeignKey(r => r.IngredientId);
     }
 }

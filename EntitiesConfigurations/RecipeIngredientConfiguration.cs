@@ -15,11 +15,11 @@ public class RecipeIngredientConfiguration : IEntityTypeConfiguration<RecipeIngr
         builder.Property(r => r.Quantity)
             .IsRequired();
 
-        builder.HasOne(r => r.Recipe)
+        builder.HasOne(ri => ri.Recipe)
             .WithMany(r => r.Ingredients)
             .HasForeignKey(r => r.RecipeId);
             
-        builder.HasOne(r => r.Ingredient)
+        builder.HasOne(ri => ri.Ingredient)
             .WithMany(i => i.Recipes)
             .HasForeignKey(r => r.IngredientId);
     }

@@ -14,7 +14,7 @@ public class IngredientService {
         _context = dbContext;
     }
     
-    [HttpPost]
+
     public DetailIngredientViewModel Create(CreateIngredientViewModel data) {
         var ingredient = new Ingredient(
             data.Name,
@@ -87,7 +87,6 @@ public class IngredientService {
         }
 
         _context.Ingredients.Remove(ingredient);
-        _context.SaveChanges();
-        
+        _context.SaveChanges();       
     }
 }

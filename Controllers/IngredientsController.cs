@@ -1,5 +1,6 @@
 namespace RecipesAPI.Controllers;
 
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Services;
 using RecipesAPI.ViewModels;
@@ -14,29 +15,38 @@ public class IngredientsController : ControllerBase {
     }
 
     [HttpPost]
-    public DetailIngredientViewModel Create(CreateIngredientViewModel data) {
-        return IngredientService.Create(data);
+    public IActionResult Create(CreateIngredientViewModel data) {
+        var ingredient =  IngredientService.Create(data);
+        return Ok(ingredient);
     }
 
     [HttpGet]
-    public List<DetailIngredientViewModel> GetAll() {
-        return IngredientService.GetAll();
+    public IActionResult GetAll() {
+        var ingredients =  IngredientService.GetAll();
+
+        return Ok(ingredients);
     }
 
     [HttpGet("{id:int}")]
-    public DetailIngredientViewModel Get(int id) {
-        return IngredientService.Get(id);
+    public IActionResult Get(int id) {
+        var ingredient =  IngredientService.Get(id);
+        return Ok(ingredient);
     }
-    
+
     [HttpPatch("{id:int}")]
-    public DetailIngredientViewModel Patch(int id, UpdateIngredientViewModel data) {
-        return IngredientService.Update(id, data);
+    public IActionResult Patch(int id, UpdateIngredientViewModel data) {
+        if (id != data.Id)
+            throw new BadHttpRequestException("Id in the request doesn't correspond to in the body.");
+
+        var ingredient = IngredientService.Update(id, data);
+
+        return Ok(ingredient);
     }
 
     [HttpDelete("{id:int}")]
-    public int Remove(int id) {
+    public IActionResult Remove(int id) {
         IngredientService.Remove(id);
-        return id;
+        return Ok(id);
     }
     
 }

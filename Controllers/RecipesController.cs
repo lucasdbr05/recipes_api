@@ -1,13 +1,23 @@
-namespace RecipesAPI.Controllers;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using RecipesAPI.Services;
+using RecipesAPI.ViewModels;
 
+namespace RecipesAPI.Controllers;
 
-public class RecipesController {
-    private readonly RecipeService recipeService;
+[Route("api/recipes")]
+[ApiController]
+public class RecipesController : ControllerBase {
+    private readonly RecipeService RecipeService;
 
     public RecipesController(RecipeService recipeService) {
-        this.recipeService = recipeService;
+        RecipeService = recipeService;
     }
 
-    
+    [HttpPost]
+    public IActionResult Create(CreateRecipeViewModel data) {
+        var recipe = RecipeService.Create(data);
+        return Ok(recipe);
+    }
 }
