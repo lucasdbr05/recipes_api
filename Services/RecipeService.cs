@@ -50,6 +50,7 @@ public class RecipeService {
         var recipes = _context
             .Recipes
             .Include(r => r.Ingredients)
+                .ThenInclude(ri => ri.Ingredient)
             .Select(
                 recipe =>  new DetailRecipeViewModel(
                         recipe.Id,
@@ -66,6 +67,7 @@ public class RecipeService {
     public DetailRecipeViewModel Get(int Id) {
         var recipe = _context.Recipes
             .Include(r => r.Ingredients)
+                .ThenInclude(ri => ri.Ingredient)
             .Single(i => i.Id == Id);       
         
         return new DetailRecipeViewModel(
