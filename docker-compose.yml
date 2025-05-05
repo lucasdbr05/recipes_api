@@ -1,0 +1,42 @@
+services:
+  database:
+    image: postgres:16
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "33647553"
+      POSTGRES_DB: recipes 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - "database"
+    image: recipes-docker
+    container_name: recipes 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=recipes;Username=postgres;Password=33647553
+    ports:
+      - '8080:8080'
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin4
+    ports:
+      - '5050:80'
+    depends_on:
+      - "database"
+
+volumes:
+  postgres_data:
