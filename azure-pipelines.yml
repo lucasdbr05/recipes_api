@@ -15,13 +15,16 @@ jobs:
         performMultiLevelLookup: true
         includePreviewVersions: true 
 
+    variables:
+      project: recipes_api.sln
+
     steps:
     - task: DotNetCoreCLI@2
       inputs:
-        command: 'restore'
+        command: 'restore $(project)'
         feedsToUse: 'select'
         vstsFeed: 'my-vsts-feed'
         
     - task: DotNetCoreCLI@2
       inputs:
-        command: 'format'
+        command: 'format $(project)'
