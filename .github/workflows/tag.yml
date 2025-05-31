@@ -1,0 +1,26 @@
+name: workflow.yml
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'  
+
+
+jobs:
+  publish: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x.x'
+      
+      - name: Install dependencies
+        run: dotnet restore recipes_api.sln
+      
+      - name: Lint
+        run: dotnet publish recipes_api.sln
