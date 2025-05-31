@@ -10,4 +10,5 @@ WORKDIR /app
 COPY --from=builder /src/app .
 EXPOSE 8080
 
+
 ENTRYPOINT ["dotnet", "RecipesAPI.dll"] 
