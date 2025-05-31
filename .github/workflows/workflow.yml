@@ -1,0 +1,55 @@
+name: workflow.yml
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x.x'
+      
+      - name: Install dependencies
+        run: dotnet restore
+
+  lint:
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.x'
+        cache: true
+    - name: Install dependencies
+      run: dotnet add package Newtonsoft.Json --version 12.0.1
+
+
+
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Install .NET Core SDK'
+      inputs:
+        version: 8.x
+        performMultiLevelLookup: true
+        includePreviewVersions: true 
+
+    variables:
+      project: recipes_api.sln
+
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore $(project)'
+        feedsToUse: 'select'
+        vstsFeed: 'my-vsts-feed'
+        
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'format $(project)'
