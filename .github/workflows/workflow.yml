@@ -22,5 +22,5 @@ jobs:
       - name: Install dependencies
         run: dotnet restore recipes_api.sln
       
-      - name: Install dependencies
+      - name: Lint
         run: dotnet format recipes_api.sln
